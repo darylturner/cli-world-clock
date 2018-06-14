@@ -1,0 +1,12 @@
+{
+    "UTC": "UTC",
+    "Atlanta": "America/New_York",
+    "Chicago": "America/Chicago",
+    "Portland": "America/Los_Angeles",
+    "San Jose": "America/Los_Angeles",
+    "London": "Europe/London",
+    "Paris": "Europe/Paris",
+    "Tokyo": "Asia/Tokyo",
+    "Sydney": "Australia/Sydney",
+    "Singapore": "Asia/Singapore"
+}
