@@ -11,15 +11,18 @@ import (
 	"time"
 )
 
-type locations map[string]string
+type config struct {
+	Zones         map[string]string `json:"zones"`
+	ReferenceTime string            `json:"reference_time"`
+}
 type result struct {
 	name string
 	zone string
 	time time.Time
 }
 
-func getLocationMap() (locations, error) {
-	locationList := locations{}
+func getConfig() (config, error) {
+	locationList := config{}
 
 	user, err := user.Current()
 	if err != nil {
@@ -38,17 +41,17 @@ func getLocationMap() (locations, error) {
 }
 
 func main() {
-	ref := flag.String("a", "", "print time at location in reference to given date: 20180614T2000")
+	ref := flag.String("a", "", "print time using reference date instead of now")
 	flag.Parse()
 
-	lmap, err := getLocationMap()
+	config, err := getConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	var rt time.Time
 	if *ref != "" {
-		timeLayout := "20060102T1504"
+		timeLayout := config.ReferenceTime
 
 		var err error
 		rt, err = time.Parse(timeLayout, *ref)
@@ -60,7 +63,7 @@ func main() {
 	}
 
 	output := make([]result, 0)
-	for name, l := range lmap {
+	for name, l := range config.Zones {
 		loc, err := time.LoadLocation(l)
 		if err != nil {
 			log.Fatal("error loading timezone: ", err)
